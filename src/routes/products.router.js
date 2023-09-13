@@ -47,6 +47,17 @@ router.put("/api/products/:pid", (req,res) => {
     let idEdit = products.findIndex( producto => producto.id.toString() === req.params.pid)
     if (idEdit !== -1){
         const productoEditado = req.body
+        if ( 
+            !productoEditado.title ||
+            !productoEditado.description ||
+            !productoEditado.code ||
+            !productoEditado.price ||
+            !productoEditado.status ||
+            !productoEditado.stock ||
+            !productoEditado.category
+            ){
+                return res.send("Faltan datos por ingresar")
+            }
         productoEditado.id = req.params.pid
         products[idEdit] = productoEditado
         fs.writeFileSync("productos.json", JSON.stringify(products));
